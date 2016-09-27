@@ -1,21 +1,24 @@
 """
 Program to automatically download all pages from web book in txt file and then convert it to .doc
+BE SURE to leave the PC in 'EN' as language mode
 
-Change the web site on row 11 and 54
-Change the name of the output file on row 15
+Change the web site on row 18 and 19
+Change the name of the output file on row 21
 
 """
 import requests  # downloads content
 import bs4  # a module for extracting information from an HTML page
 from datetime import datetime  # only to calculate the duration of the program
 
-import subprocess # to open OpenOffice Writer and convert to .doc
-import time # to make some delays
-import pyautogui # to simulate keyboard keys when saving the file in OO Writer
+import subprocess  # to open OpenOffice Writer and convert to .doc
+import time  # to make some delays
+import pyautogui  # to simulate keyboard keys when saving the file in OO Writer
 
 # declare the url
-url = 'http://www.manybooks4u.com/new/e3763.html'  # (Ninja #6) by Lustbader
-file_to_convert = "D:\SoftUni\Python\myProjects\webdownloader\output\\NL6 - SecondSkin.txt"
+url_main = 'http://www.manybooks4u.com/Classics/'
+url_ext = 'e6031.html'
+url = url_main + url_ext  # After You
+file_to_convert = "D:\SoftUni\Python\myProjects\webdownloader\output\Jojo\AfterYou_MeBeforeYou2.txt"
 book_file = open(file_to_convert, "a")
 
 print("Saving downloaded content to .txt file...")
@@ -61,8 +64,10 @@ while not url.endswith('#'):  # url ends with # at the last Next link
     for link in allLinks:
         if "Next" in link:
             nextLink = link.get('href')
-            url = 'http://www.manybooks4u.com/new/' + nextLink
+            url = url_main + nextLink
 book_file.close()
+
+time.sleep(10)
 
 print("Converting to .doc. Please do not use the PC during this conversion")
 subprocess.Popen(["C:\Program Files\OpenOffice 4\program\swriter.exe", file_to_convert])
